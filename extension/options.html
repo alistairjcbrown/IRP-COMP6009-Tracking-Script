@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>
+         Your Preferences
+      </title>
+
+      <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+      <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+      <script type="text/javascript">
+         $(document).ready(function() {
+            // Listen for save changed button click
+            $("#saveChanges").click(function() {
+               save_options();
+            });
+            // Load presaved options
+            restore_options();
+
+            // Saves options to localStorage; displays confirmation
+            function save_options() {
+               console.dir($("#form input"));
+               localStorage["tracker_scripturl"] = $("#form input").eq(0).val();
+               localStorage["tracker_cacheexpire"] = $("#form input").eq(1).val();
+               localStorage["tracker_loggingthrottle"] = $("#form input").eq(2).val();
+               // Outputs confirmation
+               $('#saveconfirmation').fadeIn(500).fadeTo(2000, 1).fadeOut(1000);
+            }
+
+            // Restores saved options from localStorage
+            function restore_options() {
+               var populate_scriptURL = localStorage["tracker_scripturl"];
+               if (populate_scriptURL)
+                  $("#form input").eq(0).val(populate_scriptURL);
+
+               var populate_cacheExpire = localStorage["tracker_cacheexpire"];
+               if (populate_cacheExpire)
+                  $("#form input").eq(1).val(populate_cacheExpire);
+
+               var populate_loggingThrottle = localStorage["tracker_loggingthrottle"];
+               if (populate_loggingThrottle)
+                  $("#form input").eq(2).val(populate_loggingThrottle);
+            }
+
+            $('input.seconds').keydown(function() { updateTime($(this)); });
+            $('input.seconds').keyup(function() { updateTime($(this)); });
+            $('input.seconds').change(function() { updateTime($(this)); });
+            $('input.seconds').change();
+
+            function updateTime(input_element) {
+               input_element.next().find('span').eq(0).html(secondsToTime(input_element.val()));
+            }
+
+            function secondsToTime(secs) {
+               if ((parseFloat(secs) == parseInt(secs)) && !isNaN(secs)) {
+                  var units = ['day', 'hour', 'minute', 'second'];
+                  var values = [0, 0, 0, 0];
+                  values[0] = Math.floor(secs / (60 * 60 * 24));
+                  
+                  var divisor_for_hours = secs % (60 * 60 * 24);
+                  values[1] = Math.floor(divisor_for_hours / (60 * 60));
+                  
+                  var divisor_for_minutes = divisor_for_hours % (60 * 60);
+                  values[2] = Math.floor(divisor_for_minutes / 60);
+                  
+                  var divisor_for_seconds = divisor_for_minutes % 60;
+                  values[3] = Math.ceil(divisor_for_seconds);
+                  
+                  var display = "";
+                  var length = values.length;
+                  for (var i=0; i < length; i++) {
+                     if (values[i] != 0) {
+                        var s = '';
+                        if (values[i] != 1)
+                           s = 's';
+                        display += values[i]+" "+units[i]+s+", ";
+                     }
+                  }
+                  return display.slice(0, -2);
+               }
+               return 'Invalid input';
+            }
+
+         });
+      </script>
+   </head>
+   <body>
+      <h1>Your Options</h1>
+      <div>
+         Please enter your database settings in <i>tracker.class.php</i> as these should not be passed in plain text from the extension to the PHP server.<br />
+         <strong>Required settings are</strong> database server address, database username, database password and database name.<br />
+         <strong>Optional settings are</strong> log table name and cache table name.<br />
+      </div>
+      <table id="form">
+         <tr>
+            <td style="width: 15em;">Tracking Script URL</td>
+            <td>
+               <input type="text" value="http://localhost/tracker/script.php" size="50" />
+            </td>
+         </tr>
+         <tr>
+            <td colspan="2">
+               Address to the hosted tracking script. Note: this can be localhost or a local machine as the chrome extension is running on your machine.
+            </td>
+         </tr>
+         <tr>
+            <td>Database Cache Expiry (in seconds)</td>
+            <td>
+               <input type="text" value="86400" class="seconds" style="float: left;" maxlength="7" size="5" />
+               <div style="float: left;">&nbsp;&rarr; <span>&nbsp;</span></div>
+            </td>
+         </tr>
+         <tr>
+            <td colspan="2">
+               How long should the script wait between requerying for page categories?
+            </td>
+         </tr>
+         <tr>
+            <td>Page Logging Throttle (in seconds)</td>
+            <td>
+               <input type="text" value="600" class="seconds" style="float: left;" maxlength="5" size="5" />
+               <div style="float: left;">&nbsp;&rarr; <span>&nbsp;</span></div>
+            </td>
+         </tr>
+         <tr>
+            <td colspan="2">
+               How long should the script wait between logging the same domain as another entry?
+            </td>
+         </tr>
+         <tr>
+            <td colspan="2">
+               <span id="saveconfirmation" style="display: none;">New settings saved</span>
+               <input type="button" value="Save Options" id="saveChanges" disabled="disabled" />
+            </td>
+         </tr>
+      </table>
+   </body>
+</html>

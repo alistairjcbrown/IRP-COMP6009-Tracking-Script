@@ -1,0 +1,73 @@
+body {
+   font-family: Arial, sans-serif;
+   color: #000;
+}
+
+h1 {
+   font-size: 1.3em;
+   border-bottom: 1px solid #999;
+}
+
+h4 {
+   margin: 0;
+}
+
+table#data {
+   border: 1px solid #E0EDFE;
+   border-collapse: collapse;
+}
+
+table#data tr:first-child td {
+   padding: 1em 1em 1em 0;
+}
+
+table#data tr:first-child td:first-child {
+   padding-right: 2em ;
+   padding-left: 1em ;
+}
+
+table#data tr td, table#data tr th {
+   text-align: left;
+}
+
+table#data tr th {
+   background-color: #E1ECFF;
+   border-bottom: 1px solid #C3D9FF;
+   padding: 0.2em;
+}
+
+table#data tr td {
+   padding: 0.2em;
+}
+
+table#data tr td.even {
+   border-bottom: 1px solid #E8EEF7;
+   background-color: #FFF;
+}
+
+table#data tr td.odd {
+   border-bottom: 1px solid #E8EEF7;
+   background-color: #F4F8FF;
+}
+
+table#data tr.url_list {
+   display: none;
+}
+
+span.cat_weight {
+   float: right;
+   padding-right: 2em;
+}
+
+span.show_urls {
+   float: right;
+}
+
+div.cookie_id {
+   font-family: "Courier New", Courier, monospace;
+   height: 100%;
+   padding: 0.5em;
+   background-color: #F7F7F7;
+   border: 1px solid #CCC;
+   margin: 0 0 1em 0;
+}

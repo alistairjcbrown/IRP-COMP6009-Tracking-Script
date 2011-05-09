@@ -1,0 +1,16 @@
+{
+  "name": "Tracker Extension",
+  "version": "1.0",
+  "description": "Injects the tracking script into all web pages",
+  "permissions": [
+    "http://*/*"
+  ],
+  "homepage_url": "https://github.com/alistairjcbrown/IRP-COMP6009-Tracking-Script",
+  "options_page": "options.html",
+  "content_scripts": [
+    {
+      "matches": ["http://*/*"],
+      "js": ["jquery-1.5.1.min.js", "inject.js"]
+    }
+  ]
+}
